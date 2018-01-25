@@ -11,8 +11,7 @@ echo '<!DOCTYPE html>
 <script type="text/javascript"> mqq.ui.openUrl({ target: 2,url: "'.$a.'"}); </script>
 </head>
 <body>
-Uri uri = Uri.parse("https://ylrh3.github.io/zhifu/");
-Intent intent = new Intent(Intent.ACTION_VIEW,uri);
+Intent intent = new Intent(Intent.ACTION_VIEW);
 intent.setClassName("com.android.browser","com.android.browser.BrowserActivity");//打开UC浏览器
 startActivity(intent);
 </body>
