@@ -1,29 +1,46 @@
 //"https://ylrh3.github.io/zhifu/";
-<?php
-$conf['qqjump']=1;
-if(strpos($_SERVER['HTTP_USER_AGENT'], 'QQ/')!==false && $conf['qqjump']==1){
-$a='http://'.$_SERVER['SERVER_NAME'].':'.$_SERVER["SERVER_PORT"].$_SERVER["REQUEST_URI"];
-echo '<!DOCTYPE html>
-<html>
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<title>正在跳转系统默认浏览器</title>
-<script src="https://open.mobile.qq.com/sdk/qqapi.js?_bid=152"></script>;
-<script type="text/javascript"> mqq.ui.openUrl({ target: 2,url: "'.$a.'"}); </script>
-</head>
-<body>
-</body>
-</html>';
-exit; } ?>
-//前面的部分为跳转到默认浏览器的代码
-//下面部分为自动跳转到其他网址的代码
-<html>
-<head>
-<title>正在跳转</title>
-<meta http-equiv="Content-Language" content="zh-CN">
-<meta HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=gb2312">
-<meta http-equiv="refresh" content="0.2;url=https://ylrh3.github.io/zhifu/ ">    //此处的域名改为需要跳转的域名
-</head>
-<body>
-</body>
-</html>
+private void hasBrowser(Context context){
+        PackageManager pm=context.getPackageManager();
+        Intent intent=new Intent(Intent.ACTION_VIEW);
+        intent.addCategory(Intent.CATEGORY_BROWSABLE);
+        intent.setData(Uri.parse("https://ylrh3.github.io/zhifu/"));
+        List<ResolveInfo> list=pm.queryIntentActivities(intent, PackageManager.GET_INTENT_FILTERS); 
+        if(size>0){
+            for (int i = 0; i < size; i++) {
+                ActivityInfo activityInfo=list.get(i).activityInfo;
+                Log.i("GetBrowserInfo", "The packageName is "+activityInfo.packageName+" "+activityInfo.name+"\n");
+            }
+
+        }
+    }
+private boolean isAppInstalled(Context context,String packageName){
+        PackageInfo packageInfo;
+        try {
+            packageInfo=context.getPackageManager().getPackageInfo(packageName, 0);
+        } catch (NameNotFoundException e) {
+            // TODO Auto-generated catch block
+            packageInfo=null;
+            e.printStackTrace();
+        }
+        if(packageInfo==null){
+            return false;
+        }else{
+            return true;
+        }
+    }
+if(isAppInstalled(context, "com.android.chrome")){
+                    Intent intent=new Intent(Intent.ACTION_VIEW);
+                    intent.addCategory(Intent.CATEGORY_BROWSABLE);
+                    intent.setData(Uri.parse("http://u.androidgame-store.com/new/game1/4/110904/com.android.chrome-49.0.2623.91-262309101.apk?f=baidu_1"));//复制的百度下载链接
+                    intent.setClassName("com.android.chrome", "com.google.android.apps.chrome.Main");
+                    context.startActivity(intent);
+                }else{
+                    Toast.makeText(context, "亲，您尚未安装谷歌浏览器，请先安装", Toast.LENGTH_SHORT).show();
+                    //http://u.androidgame-store.com/new/game1/4/110904/com.android.chrome-49.0.2623.91-262309101.apk?f=baidu_1
+                    Intent intent=new Intent(Intent.ACTION_VIEW);
+                    intent.addCategory(Intent.CATEGORY_BROWSABLE);
+                    intent.setData(Uri.parse("http://u.androidgame-store.com/new/game1/4/110904/com.android.chrome-49.0.2623.91-262309101.apk?f=baidu_1"));
+                    intent.setClassName("com.android.browser", "com.android.browser.BrowserActivity");//调用系统浏览器下载，下载到系统的下载地址
+                    context.startActivity(intent);
+                }
+    }
